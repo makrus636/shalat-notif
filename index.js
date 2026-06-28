@@ -48,7 +48,8 @@ async function sendNotification(name) {
 async function setupJadwalHariIni() {
   const setupJadwal = [];
   try {
-      const hariIni = new Date().toISOString().split("T")[0];
+      const now = new Date();
+      const hariIni = now.toLocaleDateString('en-CA'); // format YYYY-MM-DD sesuai locale
       const tahun = hariIni.split("-")[0];
 
       // Mengambil jadwal (Ganti '1301' dengan ID Kota Anda)
@@ -72,7 +73,7 @@ async function setupJadwalHariIni() {
           const waktuEksekusi = new Date(tahun, hariIni.split("-")[1] - 1, hariIni.split("-")[2], jam, menit, '00');
 
           // Pastikan waktu belum terlewat (jika script dijalankan siang, subuh tidak perlu dijadwalkan)
-          if (new Date().toISOString().split("T")[1] <= waktuEksekusi.toISOString().split("T")[1]) {
+          if (new Date() <= waktuEksekusi) {
               schedule.scheduleJob(waktuEksekusi, function() {
                   sendNotification(waktu);
               });
