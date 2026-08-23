@@ -46,7 +46,7 @@ async function sendNotification(name) {
 }
 
 async function setupJadwalHariIni() {
-  const setupJadwal = [];
+
   try {
       const now = new Date();
       const hariIni = now.toLocaleDateString('en-CA'); // format YYYY-MM-DD sesuai locale
@@ -78,18 +78,14 @@ async function setupJadwalHariIni() {
                   sendNotification(waktu);
               });
               console.log(`- Tugas disiapkan: ${waktu} pada jam ${jamMenit}`);
-              setupJadwal.push(`- Tugas disiapkan: ${waktu} pada jam ${jamMenit}\n`);
           } else {
               console.log(`- Tugas dilewati: ${waktu} (waktu sudah terlewat)`);
-              setupJadwal.push(`- Tugas dilewati: ${waktu} (waktu sudah terlewat)\n`);
           }
       });
 
   } catch (error) {
       console.error('Gagal mengambil data jadwal sholat:', error.message);
-      setupJadwal.push('Gagal mengambil data jadwal sholat:', error.message, '\n');
   }
-  sendNotificationAlert(setupJadwal);
 }
 
 setupJadwalHariIni();
