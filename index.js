@@ -4,20 +4,20 @@ const axios = require('axios');
 
 const wahaUrl = process.env.WAHA_URL;
 const chatId = process.env.NO_WA;
-const sessionName = process.env.SESSION_NAME;
-const apiKey = process.env.API_KEY;
+const deviceId = process.env.DEVICE_ID;
+const auth = process.env.AUTH;
 
 async function sendNotificationAlert(message) {
   const pesan = `Pesan log:\n ${message}`;
   try {
     await axios.post(wahaUrl, {
-      chatId: chatId,
-      text: pesan,
-      session: sessionName
+      phone: chatId,
+      message: pesan
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'X-Api-Key': apiKey
+        'X-Device-Id': deviceId,
+        "Authorization": `Basic ${auth}`
       }
     });
   } catch (e) {
@@ -29,13 +29,13 @@ async function sendNotification(name) {
   try {
     const pesan = `Waktunya shalat *${name}* telah tiba. Selamat menunaikan ibadah!`;
     await axios.post(wahaUrl, {
-      chatId: chatId,
-      text: pesan,
-      session: sessionName
+      phone: chatId,
+      message: pesan
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'X-Api-Key': apiKey
+        'X-Device-Id': deviceId,
+        "Authorization": `Basic ${auth}`
       }
     });
 
