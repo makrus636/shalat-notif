@@ -2,10 +2,16 @@ require('dotenv').config();
 const schedule = require('node-schedule');
 const axios = require('axios');
 
-const wahaUrl = process.env.WAHA_URL;
+const wahaUrl = process.env.API_URL;
 const chatId = process.env.NO_WA;
 const deviceId = process.env.DEVICE_ID;
 const auth = process.env.AUTH;
+
+console.log('Memulai sistem automasi shalat...');
+console.log(`Menggunakan API URL: ${wahaUrl}`);
+console.log(`Menggunakan Chat ID: ${chatId}`);
+console.log(`Menggunakan Device ID: ${deviceId}`);
+console.log(`Menggunakan Auth: ${auth}`);
 
 async function sendNotificationAlert(message) {
   const pesan = `Pesan log:\n ${message}`;
@@ -17,7 +23,7 @@ async function sendNotificationAlert(message) {
       headers: {
         'Content-Type': 'application/json',
         'X-Device-Id': deviceId,
-        "Authorization": `Basic ${auth}`
+        'Authorization': `Basic ${auth}`
       }
     });
   } catch (e) {
@@ -33,9 +39,9 @@ async function sendNotification(name) {
       message: pesan
     }, {
       headers: {
+        'Authorization': `Basic ${auth}`,
         'Content-Type': 'application/json',
         'X-Device-Id': deviceId,
-        "Authorization": `Basic ${auth}`
       }
     });
 
@@ -96,3 +102,4 @@ schedule.scheduleJob('1 0 * * *', function () {
 });
 
 console.log('Sistem Automasi Node.js berjalan...');
+sendNotification('Bot shalat telah aktif, siap mengirim notifikasi shalat tepat waktu.');
